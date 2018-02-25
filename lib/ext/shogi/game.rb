@@ -1,9 +1,6 @@
 module Shogi
-  class Board
-    attr_reader :captured
-  end
-
   class Game
+    attr_reader :board
     def end?
       @board.captured.any? {|piece| piece.include?('OU') }
     end

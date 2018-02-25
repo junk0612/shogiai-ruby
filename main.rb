@@ -1,13 +1,13 @@
 require 'shogi'
 require 'pry'
 
-require './lib/game'
 require './lib/brain'
+require './lib/ext/shogi'
 
 game = Shogi::Game.new(:csa)
 brain = Brain.new
 
-while true
+loop do
   puts game.to_csa
 
   input = gets
