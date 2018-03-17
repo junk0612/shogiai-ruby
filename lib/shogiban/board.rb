@@ -70,6 +70,31 @@ module Shogiban
       result.join("\n")
     end
 
+    def movables(turn)
+      @pieces.select {|piece| piece.turn == turn }.reduce([]) do |result, piece|
+        result.concat piece.movables
+      end
+    end
+
+    def at?(x, y, turn = '+-')
+      piece = @table[x][y]
+      !piece.nil? && turn.include?(piece.turn)
+    end
+
+    def no_other_pieces?(bx, by, ex, ey)
+      if bx == ex
+        (Math.min(by, ey)+1..Math.max(by, ey)-1).none? do |y|
+          at?(start[0], y)
+        end
+      elsif by == ey
+        (Math.min(bx, ex)+1..Math.max(by, ey)-1).none? do |x|
+          at?(x, start[1])
+        end
+      elsif bx > ex && by < ey
+        (1..start[1]-start[0]-1)
+      end
+    end
+
     private
 
     def initialize_placement_of_pieces
@@ -83,7 +108,7 @@ module Shogiban
           next if csa[1] == '*'
 
           piece = parse_piece(csa)
-          piece.place = Cell.new(row, column)
+          piece.place = Cell.new(column, row)
           @pieces << piece
           @table[column][row] = piece
         end

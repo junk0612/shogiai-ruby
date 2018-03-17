@@ -9,7 +9,11 @@ module Shogiban
       end
 
       def to_csa
-        "#{@captured ? '00' : turn}#{self.class.name.split('::').last}"
+        "#{@captured ? '00' : turn}#{piece_name}"
+      end
+
+      def piece_name
+        self.class.name.split('::').last
       end
 
       def capture

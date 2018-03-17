@@ -7,5 +7,9 @@ module Shogiban
       @to = to
       @promote = promote
     end
+
+    def to_csa
+      "#{piece.turn}#{piece.place.to_csa}#{to.to_csa}#{piece.piece_name}"
+    end
   end
 end

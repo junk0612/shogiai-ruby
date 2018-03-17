@@ -3,19 +3,33 @@ require './lib/shogiban/piece/base'
 module Shogiban
   module Piece
     class FU < Base
-      MOVEMENTS = [[0, 1]]
+      def movables
+        [board.movable(0, @turn == '-' ? 1 : -1)]
+      end
     end
 
     class KY < Base
-      MOVEMENTS = (1..8).map {|height| [0, height] }
+      def movables
+        board.movables(0, @turn == '-' ? 1 : -1)
+      end
     end
 
     class KE < Base
-      MOVEMENTS = [[1, 2], [-1, 2]]
+      def movables
+        [1, -1].reduce([]) do |result, x|
+          result.concat board.movable(x, @turn == '-' ? 2 : -2)
+        end
+      end
     end
 
     class GI < Base
-      MOVEMENTS = [[-1, 1], [0, 1], [1, 1], [-1, -1], [1, -1]]
+      def movables
+        [[-1, 1], [0, 1], [1, 1], [-1, -1], [1, -1]].reduce([]) do |result, ary|
+          x = ary[0]
+          y = ary[1]
+          result.concat board.movable(x, @turn == '-' ? y : -y)
+        end
+      end
     end
 
     class KI < Base
